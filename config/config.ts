@@ -122,6 +122,12 @@ export default {
               component: './form',
             },
             {
+              name: '脑图编辑器',
+              icon: 'smile',
+              path: '/editormind',
+              component: './EditorMind',
+            },
+            {
               component: './404',
             },
           ],
