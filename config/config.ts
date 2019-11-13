@@ -121,12 +121,12 @@ export default {
               path: '/form',
               component: './form',
             },
-            {
-              name: 'Blank',
-              icon: 'smile',
-              path: '/blank',
-              component: './blank',
-            },
+            // {
+            //   name: 'Blank',
+            //   icon: 'smile',
+            //   path: '/blank',
+            //   component: './blank',
+            // },
             {
               component: './404',
             },
