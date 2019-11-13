@@ -49,8 +49,7 @@ const plugins: IPlugin[] = [
     {
       moveMock: false,
       moveService: false,
-      modifyRequest: true,
-      // autoAddMenu: true,
+      modifyRequest: true, // autoAddMenu: true,
     },
   ],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
@@ -121,12 +120,32 @@ export default {
               path: '/form',
               component: './form',
             },
-            // {
-            //   name: 'Blank',
-            //   icon: 'smile',
-            //   path: '/blank',
-            //   component: './blank',
-            // },
+            {
+              name: 'dva',
+              icon: 'smile',
+              path: '/dva',
+              component: './dva',
+            },
+            {
+              name: 'newpage',
+              icon: 'smile',
+              path: '/newpage',
+              component: './newPage',
+            },
+            {
+              name: 'subhome',
+              icon: 'smile',
+              path: '/', //不填不行填了没用
+              // component: './layout/subHome',
+              routes: [
+                {
+                  name: 'sub',
+                  icon: 'smile',
+                  path: '/layout/sub',
+                  component: './layout/sub',
+                },
+              ],
+            },
             {
               component: './404',
             },
