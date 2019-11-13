@@ -50,7 +50,7 @@ const plugins: IPlugin[] = [
       moveMock: false,
       moveService: false,
       modifyRequest: true,
-      autoAddMenu: true,
+      // autoAddMenu: true,
     },
   ],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
@@ -122,10 +122,10 @@ export default {
               component: './form',
             },
             {
-              name: '脑图编辑器',
+              name: 'Blank',
               icon: 'smile',
-              path: '/editormind',
-              component: './EditorMind',
+              path: '/blank',
+              component: './blank',
             },
             {
               component: './404',
