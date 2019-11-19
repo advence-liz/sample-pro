@@ -1,7 +1,6 @@
 import request from 'umi-request'
 import { AnyAction, Reducer } from 'redux'
 import { EffectsCommandMap } from 'dva'
-import { number } from 'prop-types'
 
 export interface ModalState {
   users: string[]
@@ -27,14 +26,20 @@ export interface ModelType {
 async function fetch() {
   return request('/api/users')
 }
-const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout))
 
 const Model: ModelType = {
   namespace: 'BLOCK_NAME_CAMEL_CASE',
   state: {
     name: 'name',
-    count: 0,
+    age: 18,
     users: [],
+    pagination: {
+      hideOnSinglePage: false,
+      current: 1,
+      pageSize: 10,
+      total: 0
+      },
+      
   },
   reducers: {
     update(state, { payload }) {
@@ -46,7 +51,6 @@ const Model: ModelType = {
   effects: {
     *fetch({ payload }, { select, all, call, put }) {
       const { users } = yield call(fetch)
-      yield call(delay, 1000)
       console.log(users)
       yield put({ type: 'update', payload: { users } })
     },
