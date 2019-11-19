@@ -1,26 +1,22 @@
 import React from "react";
 import {
     Form,
-    Input,
+    Input
 } from "antd"
+import BaseFormItem from './baseFormItem'
 
-interface Options {
-    label: string
-    value: string | number
+interface IProps extends IBaseProps {
+    value?: string
 }
 
-export class Email {
-    options: Options
-    constructor(options = { label: 'email', value: 'aaa@163.com' }) {
-        this.options = options
-    }
+export default class Email extends BaseFormItem<IProps, any> {
 
-    render(getFieldDecorator) {
-
-        const { label, value } = this.options
+    render() {
+        const { label, value, form, required } = this.props
+        const { getFieldDecorator } = form
 
         return (<Form.Item label={label}>
-            {getFieldDecorator("email", {
+            {getFieldDecorator(this.idx, {
                 initialValue: value,
                 rules: [
                     {
@@ -28,7 +24,7 @@ export class Email {
                         message: "The input is not valid E-mail!"
                     },
                     {
-                        required: false,
+                        required,
                         message: "Please input your E-mail!"
                     },
 

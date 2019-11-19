@@ -4,14 +4,18 @@ import {
     Form,
     Input,
 } from "antd"
+import BaseFormItem from './baseFormItem'
 
-// interface Options {
-//     label: string
-//     value: string | number
-// }
+interface IProps extends IBaseProps {
+    value?: string
+}
 
-export class Password {
+export default class Password extends BaseFormItem<IProps, any> {
+  
+    state = {
+        confirmDirty: false,
 
+    }
     compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props
         if (value && value !== form.getFieldValue('password')) {
@@ -19,7 +23,7 @@ export class Password {
         } else {
             callback()
         }
-    };
+    }
 
     validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props
@@ -27,21 +31,23 @@ export class Password {
             form.validateFields(['confirm'], { force: true })
         }
         callback()
-    };
+    }
 
     handleConfirmBlur = e => {
         const { value } = e.target
         this.setState({ confirmDirty: this.state.confirmDirty || !!value })
-      };
-      
-    render(getFieldDecorator) {
+    }
 
+    render() {
+
+        const { label, form, required } = this.props
+        const { getFieldDecorator } = form
         return (<React.Fragment>
-            <Form.Item label="Password" hasFeedback>
-                {getFieldDecorator('password', {
+            <Form.Item label={label} hasFeedback>
+                {getFieldDecorator(this.idx, {
                     rules: [
                         {
-                            required: true,
+                            required,
                             message: 'Please input your password!',
                         },
                         {
@@ -50,11 +56,11 @@ export class Password {
                     ],
                 })(<Input.Password />)}
             </Form.Item>
-            <Form.Item label="Confirm Password" hasFeedback>
-                {getFieldDecorator('confirm', {
+            <Form.Item label={`Confirm ${label}`} hasFeedback>
+                {getFieldDecorator(`${this.idx}Confirm`, {
                     rules: [
                         {
-                            required: true,
+                            required,
                             message: 'Please confirm your password!',
                         },
                         {
