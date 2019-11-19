@@ -26,17 +26,44 @@ class PAGE_NAME_UPPER_CAMEL_CASE extends Component<
 PAGE_NAME_UPPER_CAMEL_CASEProps & ModalState,
 any
 > {
-  fetch = () => {
-    const { dispatch } = this.props
 
-    dispatch({ type: 'BLOCK_NAME_CAMEL_CASE/fetch' })
+  /**
+  * 封装dispatch方法方便调用
+  * @description
+  *  this.dispatch({ count: count + 1 })  默认
+  *  this.dispatch('ajax')
+  */
+  dispatch = (type: string | object, payload?: object) => {
+    const { dispatch } = this.props
+    let _action: string = 'update'
+    let _payload: object = payload || {}
+    if (typeof type === 'string') {
+      _action = type
+    }
+    if (typeof type === 'object') {
+      _action = 'update'
+      _payload = type
+    }
+
+    dispatch({ type: `BLOCK_NAME_CAMEL_CASE/${_action}`, payload: _payload })
+  }
+
+  handleTableChange = (pagination: any) => {
+
+    this.dispatch('fetchList', { pagination })
+
+  }
+  componentDidMount() {
+    const { pagination } = this.props
+    this.dispatch('fetchList', { pagination })
   }
 
   render() {
-    const { pagination } = this.props
+    const { pagination, list } = this.props
     return (
       <div className={styles.normal}>
-        <Table columns={columns} dataSource={data} pagination={pagination} />
+        <Table columns={columns} dataSource={list} onChange={this.handleTableChange}
+          pagination={pagination} />
 
       </div>
     )

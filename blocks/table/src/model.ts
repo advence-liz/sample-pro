@@ -3,7 +3,7 @@ import { AnyAction, Reducer } from 'redux'
 import { EffectsCommandMap } from 'dva'
 
 export interface ModalState {
-  users: string[]
+  list: string[]
   [propName: string]: any
 }
 
@@ -23,8 +23,10 @@ export interface ModelType {
     [propName: string]: Reducer<ModalState>
   }
 }
-async function fetch() {
-  return request('/api/users')
+async function fetch(params:any) {
+  return request.get('/api/list', {
+    params
+  })
 }
 
 const Model: ModelType = {
@@ -32,14 +34,13 @@ const Model: ModelType = {
   state: {
     name: 'name',
     age: 18,
-    users: [],
+    list: [],
     pagination: {
       hideOnSinglePage: false,
       current: 1,
       pageSize: 10,
-      total: 0
-      },
-      
+      total: 20,
+    },
   },
   reducers: {
     update(state, { payload }) {
@@ -49,10 +50,14 @@ const Model: ModelType = {
     },
   },
   effects: {
-    *fetch({ payload }, { select, all, call, put }) {
-      const { users } = yield call(fetch)
-      console.log(users)
-      yield put({ type: 'update', payload: { users } })
+    *fetchList({ payload }, { select, all, call, put }) {
+      const { pagination } = payload
+      const { current, pageSize } = pagination
+
+      const { code, data, message } = yield call(fetch,{current,pageSize})
+      const { list, total } = data
+
+      yield put({ type: 'update', payload: { list, pagination: { ...pagination, total } } })
     },
   },
 }
